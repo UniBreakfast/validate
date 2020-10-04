@@ -18,5 +18,8 @@
   "bugs": {
     "url": "https://github.com/UniBreakfast/validate/issues"
   },
-  "homepage": "https://github.com/UniBreakfast/validate#readme"
+  "homepage": "https://github.com/UniBreakfast/validate#readme",
+  "dependencies": {
+    "c4console": "^1.0.8"
+  }
 }
