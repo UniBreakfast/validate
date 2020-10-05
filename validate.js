@@ -1,11 +1,35 @@
 export default function validate(values, requirements) {
-  return requirements.filter(req => {
-    if (req.is || req.has) {
-      const rule = req.is || rule.has
-      return !rule.test(values[req.field])
-    } else if (req.not || req.hasNo || req.isNot) {
-      const rule = req.not || req.hasNo || req.isNot
-      return rule.test(values[req.field])
+  requirements = {...requirements}
+  const issues = []
+
+  for (const field in requirements) {
+    if (!values.hasOwnProperty(field) || typeof values[field] != 'string') {
+      issues.push({field, issue: 'required'})
+      continue
     }
-  }).map(({field, issue}) => ({field, issue}))
+
+    const value = values[field]
+
+    if (!Array.isArray(requirements[field])) {
+      requirements[field] = [requirements[field]]
+    }
+
+    requirements[field].forEach(rule => {
+      const {is, has, match, not, isNot, hasNo, issue} = rule
+      if (is && !is.test(value)) return issues.push({field, issue})
+      if (has && !has.test(value)) return issues.push({field, issue})
+      if (match && !match.test(value)) return issues.push({field, issue})
+      if (not && not.test(value)) return issues.push({field, issue})
+      if (isNot && isNot.test(value)) return issues.push({field, issue})
+      if (hasNo && hasNo.test(value)) return issues.push({field, issue})
+    })
+  }
+
+  for (const field in values) {
+    if (!requirements.hasOwnProperty(field)) {
+      issues.push({field, issue: 'unexpected'})
+    }
+  }
+
+  return issues.length && issues
 }

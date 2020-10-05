@@ -3,29 +3,22 @@ import validate from './validate.js'
 
 
 const inputValues1 = {
-  login: ' ',
-  password: ' ',
+  login: 'Bob',
+  password: 'qwerty',
   email: ''
 }
 
-const requirements1 = [
-  {
-    field: 'password', is: /.{4}/,
-    issue: 'has to be at least 4 characters long'
-  },
-  {
-    field: 'password', not: /\s/,
-    issue: 'should not include spaces'
-  },
-
-  {
-    field: 'login', hasNo: /[^\w]/,
-    issue: 'only alpanumeric characters allowed'
-  }
-]
+const requirements2 = {
+  login: {hasNo: /[^\w]/, issue: 'only alphanumeric characters allowed'},
+  password: [
+    {is: /.{4}/, issue: 'has to be at least 4 characters long'},
+    {not: /\s/, issue: 'should not include spaces'},
+  ],
+  email: [],
+}
 
 
-validate(inputValues1, requirements1).c()
+validate(inputValues1, requirements2).c()
 
 
 setTimeout(() => { }, 7e7)
