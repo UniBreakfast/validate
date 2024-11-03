@@ -1,4 +1,4 @@
-# validate
+# [validate](https://github.com/UniBreakfast/validate)
 
 ## `validate` function to check structured data agains structured requirements
 
